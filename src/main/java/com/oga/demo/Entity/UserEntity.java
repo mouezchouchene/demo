@@ -2,8 +2,11 @@ package com.oga.demo.Entity;
 
 
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Entity
@@ -17,19 +20,37 @@ public class UserEntity {
     private String prenom;
     private String email;
     private String password;
+    private MultipartFile[] imageFile;
+    private String image;
     private int telephone;
     private boolean disabled=false;
+    private String  departement;
+    private String sex;
+    private String role;
+
+    @OneToMany(
+            mappedBy = "userEntity",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+
+    )
+    private List<Calendrier> calendries = new ArrayList();
 
 
-
-    public UserEntity(int id, String nom, String prenom, String email, String password, int telephone,boolean status) {
+    public UserEntity(int id, String nom, String prenom, String email, String password, MultipartFile[] imageFile, String image, int telephone, boolean disabled, String departement, String sex, String role, List<Calendrier> calendriers) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.password = password;
+        this.imageFile = imageFile;
+        this.image = image;
         this.telephone = telephone;
-        this.disabled = status;
+        this.disabled = disabled;
+        this.departement = departement;
+        this.sex = sex;
+        this.role = role;
+        this.calendries = calendries;
     }
 
     public int getId() {
@@ -88,6 +109,54 @@ public class UserEntity {
         this.disabled = disabled;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getDepartement() {
+        return departement;
+    }
+
+    public void setDepartement(String departement) {
+        this.departement = departement;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public MultipartFile[] getImageFile() {
+        return imageFile;
+    }
+
+    public void setImageFile(MultipartFile[] imageFile) {
+        this.imageFile = imageFile;
+    }
+
+    public List<Calendrier> getCalendries() {
+        return calendries;
+    }
+
+    public void setCalendries(List<Calendrier> calendries) {
+        this.calendries = calendries;
+    }
+
     @Override
     public String toString() {
         return "UserEntity{" +
@@ -96,8 +165,12 @@ public class UserEntity {
                 ", prenom='" + prenom + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", telephone=" + telephone + '\'' +
+                ", image='" + image + '\'' +
+                ", telephone=" + telephone +
                 ", disabled=" + disabled +
+                ", departement='" + departement + '\'' +
+                ", sex='" + sex + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 }
